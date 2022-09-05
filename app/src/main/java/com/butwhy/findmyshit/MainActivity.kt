@@ -1,6 +1,7 @@
 package com.butwhy.findmyshit
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import android.location.LocationManager
 import com.butwhy.findmyshit.databinding.ActivityMainBinding
 
 
@@ -24,7 +26,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var smsReceiver = SMS_Receiver()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -50,6 +51,9 @@ class MainActivity : AppCompatActivity() {
             } 
         }
         Log.d("main_log", "permissions activated")
+        val locationManager =  this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val handler = ResponseHandler(locationManager)
+        SMS_Receiver(handler)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

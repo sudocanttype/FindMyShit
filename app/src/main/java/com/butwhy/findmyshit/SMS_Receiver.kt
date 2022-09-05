@@ -7,7 +7,7 @@ import android.telephony.SmsMessage
 import android.util.Log
 
 
-class SMS_Receiver : BroadcastReceiver() {
+class SMS_Receiver(private val handler: ResponseHandler) : BroadcastReceiver() {
     private var key: String = "423kslf"
         get() {
             return field
