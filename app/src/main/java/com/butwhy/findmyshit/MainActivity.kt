@@ -3,6 +3,7 @@ package com.butwhy.findmyshit
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -39,11 +40,16 @@ class MainActivity : AppCompatActivity() {
                     .setAction("Action", null).show()
         }
         //get those permissions
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.RECEIVE_SMS),
-                1)
+        val permissionsList = arrayOf(Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.FOREGROUND_SERVICE)
+        //these permissions are required to run
+        for (i in permissionsList.indices){
+            if (ContextCompat.checkSelfPermission(this, permissionsList[i]) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                arrayOf(permissionsList[i]),
+                i)
+            } 
         }
+        Log.d("main_log", "permissions activated")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
