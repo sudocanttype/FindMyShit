@@ -5,12 +5,12 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Criteria
 import android.location.LocationManager
-import android.location.Location
 import android.util.Log
 import androidx.core.app.ActivityCompat
-import java.util.function.Consumer
+import android.telephony.SmsManager
 
-class ResponseHandler(private val context: Context, private val lm: LocationManager) {
+
+class ResponseHandler(private val context: Context, private val lm: LocationManager, private val sender: String) {
 	private val location_criteria = Criteria()
 
   init {
@@ -49,10 +49,13 @@ class ResponseHandler(private val context: Context, private val lm: LocationMana
 					res[1] = it.longitude
 					//do everything here because this call is async
 					Log.d("main_log", "check 1 "+ res[0] + " "+res[1])
+					textString("location is at "+ res[0] + ", "+res[1])
 				}
-
 			} 			
 		}
-
+	}
+	fun textString(content:String) {
+		val sm = SmsManager.getDefault()
+		sm.sendTextMessage(sender, null, content, null, null)
 	}
 }

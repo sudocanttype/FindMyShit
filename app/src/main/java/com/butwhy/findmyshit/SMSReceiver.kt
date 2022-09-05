@@ -7,7 +7,7 @@ import android.telephony.SmsMessage
 import android.util.Log
 import kotlin.random.Random
 
-
+//this does some dumb shit where it gets re-called every time a text happens
 class SMSReceiver() : BroadcastReceiver() {
     private var key: String = "kekw"
     //designate that later, there should be no instance where this class is run without the parameter
@@ -23,18 +23,20 @@ class SMSReceiver() : BroadcastReceiver() {
             val pdus = (intent.extras?.get("pdus")) as Array<*>
             //the important shit is in the extras and pdus
             for (kekw in pdus) {
-                val sms = SmsMessage.createFromPdu(kekw as ByteArray?).messageBody
+                val sms = SmsMessage.createFromPdu(kekw as ByteArray?)
+                val message = sms.messageBody
+                val sender = sms.displayOriginatingAddress
                 //pull out that msg data
-                if ( sms.count{ it == '-' } != 1 ){
+                if ( message.count{ it == '-' } != 1 ){
                     return 
                 }
 
 
-                var (test, content) = sms.split("-")
+                var (test, content) = message.split("-")
                 if (test == key) {
 
                     val locationManager =  context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                    val handler = ResponseHandler(context, locationManager)
+                    val handler = ResponseHandler(context, locationManager, sender)
 
                     content = content.lowercase()
                     Log.d("SMS_Receiver", content)
