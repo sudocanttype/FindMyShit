@@ -27,7 +27,7 @@ class SMS_Receiver : BroadcastReceiver() {
                 if ( sms.count{ it == '-' } != 1 ){
                     return 
                 }
-                val (test, content) = sms.split("-")
+                var (test, content) = sms.split("-")
                 if (test == key) {
                     content = content.lowercase()
                     Log.d("SMS_Receiver", content)
@@ -50,4 +50,4 @@ class SMS_Receiver : BroadcastReceiver() {
 
 //todo:
 //play alarm, send location, lost mode -> begin logging locations every 3 minutes, send location every time screen is on
-//
+//Intent.ACTION_SCREEN_ON
