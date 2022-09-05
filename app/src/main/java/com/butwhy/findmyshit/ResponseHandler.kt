@@ -23,11 +23,11 @@ class ResponseHandler(private val context: Context, private val lm: LocationMana
 	fun soundTheAlarms(replyAddr: String) {
 
 	}
-	private fun getLocation(): Array<Double>? {
+	fun sendLocation() {
 		val res: Array<Double> = arrayOf(0.0, 0.0)
 		if (lm.isLocationEnabled) {
 			if (lm.allProviders.size != 0) {
-				val provider = lm.getBestProvider(location_criteria, true) ?: return null
+				val provider = lm.getBestProvider(location_criteria, true) ?: return
 				//getBestProvider returns null if there is no provider available
 
 				if (ActivityCompat.checkSelfPermission(context,	Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) 
@@ -39,7 +39,7 @@ class ResponseHandler(private val context: Context, private val lm: LocationMana
 					//                                          int[] grantResults)
 					// to handle the case where the user grants the permission. See the documentation
 					// for ActivityCompat#requestPermissions for more details.
-					return null
+
 				} else {
 					Log.d("main_log", "location is disabled, enabled it")
 					//TODO: make a toast pop up
@@ -47,15 +47,12 @@ class ResponseHandler(private val context: Context, private val lm: LocationMana
 				lm.getCurrentLocation(provider, null, context.mainExecutor) {
 					res[0] = it.latitude
 					res[1] = it.longitude
-					Log.d("main_log", "check 1$res")
+					//do everything here because this call is async
+					Log.d("main_log", "check 1 "+ res[0] + " "+res[1])
 				}
-				Log.d("main_log", "check 2$res")
-				return res
+
 			} 			
 		}
-		return null
-	}
-	fun sendLocation() {
-		getLocation()
+
 	}
 }

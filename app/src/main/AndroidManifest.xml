@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <receiver
-            android:name=".SMS_Receiver"
+            android:name=".SMSReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter android:priority="1000">

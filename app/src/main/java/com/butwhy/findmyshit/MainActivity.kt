@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    public var kekw = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +52,6 @@ class MainActivity : AppCompatActivity() {
             } 
         }
         Log.d("main_log", "permissions activated")
-        val locationManager =  this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val handler = ResponseHandler(this, locationManager)
-        SMSReceiver(handler)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -77,4 +75,7 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
+
 }
+
+
