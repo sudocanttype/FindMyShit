@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         }
         Log.d("main_log", "permissions activated")
         val locationManager =  this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val handler = ResponseHandler(locationManager)
+        val handler = ResponseHandler(this, locationManager)
         SMS_Receiver(handler)
     }
 

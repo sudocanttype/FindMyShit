@@ -2,22 +2,22 @@ package com.butwhy.findmyshit
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.provider.Telephony
 import android.telephony.SmsMessage
 import android.util.Log
 
 
-class SMS_Receiver(private val handler: ResponseHandler) : BroadcastReceiver() {
-    private var key: String = "423kslf"
-        get() {
-            return field
-        }
-        set(name) {
-            field = name
-        }
+class SMS_Receiver() : BroadcastReceiver() {
+    private var key: String = "kekw"
+    //designate that later, there should be no instance where this class is run without the parameter
+    private lateinit var handler: ResponseHandler
+    //constructor needed because recive in android manifest is finicky
+    constructor(handler: ResponseHandler) : this() {
+        this.handler = handler
+    }
 
     override fun onReceive(context: Context, intent: Intent) {
-        //whenever anything gets broadcasted this catches it
+
+        //whenever anything gets broadcasted, this catches it
         if (intent.action.toString() == "android.provider.Telephony.SMS_RECEIVED") {
             val pdus = (intent.extras?.get("pdus")) as Array<*>
             //the important shit is in the extras and pdus
@@ -37,6 +37,7 @@ class SMS_Receiver(private val handler: ResponseHandler) : BroadcastReceiver() {
 
                     } else if ( content == "location" || content == "locate" || content == "find" || content == "place"){
                         //send location preferably high accuracy
+                        handler.sendLocation()
 
                     } else if (  content == "lost" || content == "lost mode" || content == "lostmode" || content == "fuck" ){
                         //lost mode -> begin logging locations every 3 minutes, send location every time screen is on
