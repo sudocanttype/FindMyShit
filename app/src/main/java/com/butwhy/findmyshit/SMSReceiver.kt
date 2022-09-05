@@ -9,11 +9,11 @@ import android.util.Log
 class SMS_Receiver() : BroadcastReceiver() {
     private var key: String = "kekw"
     //designate that later, there should be no instance where this class is run without the parameter
-    private lateinit var handler: ResponseHandler
+    lateinit var handler: ResponseHandler
     //constructor needed because recive in android manifest is finicky
-    constructor(handler: ResponseHandler) : this() {
-        this.handler = handler
-    }
+    // constructor(handler: ResponseHandler) : this() {
+    //     this.handler = handler
+    // }
 
     override fun onReceive(context: Context, intent: Intent) {
 

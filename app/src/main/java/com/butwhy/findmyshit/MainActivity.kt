@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("main_log", "permissions activated")
         val locationManager =  this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val handler = ResponseHandler(this, locationManager)
-        SMS_Receiver(handler)
+        SMSReceiver(handler)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
