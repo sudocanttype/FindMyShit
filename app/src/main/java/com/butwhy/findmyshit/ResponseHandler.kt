@@ -37,7 +37,7 @@ class ResponseHandler(private val context: Context, private val lm: LocationMana
 				val provider = lm.getBestProvider(location_criteria, true) ?: return
 				//getBestProvider returns null if there is no provider available
 
-				if (ActivityCompat.checkSelfPermission(context,	Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) 
+				if (ActivityCompat.checkSelfPermission(context,	Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
 				{
 					// TODO: Consider calling
 					//    ActivityCompat#requestPermissions
@@ -49,25 +49,31 @@ class ResponseHandler(private val context: Context, private val lm: LocationMana
 					// Toast.makeText(context, "Location is disabled, enable it.", Toast.LENGTH_LONG).show()
 					Toast.makeText(context, "Insufficient permissions, please grant FindMyShit the necessary permissions.", Toast.LENGTH_LONG).show()
 					textString("Not all permissions granted, location access failed.")
-					return
+					throw Exception("Insufficient permissions")
 				}
-					lm.getCurrentLocation(provider, null, context.mainExecutor) {
+
+				lm.getCurrentLocation(provider, null, context.mainExecutor) {
 					res[0] = it.latitude
 					res[1] = it.longitude
+
 					//do everything here because this call is async
-					Log.d("main_log", "check 1 "+ res[0] + " "+res[1])
 					textString("location is at "+ res[0] + ", "+res[1])
+
 				}
-			} 			
+			}
 		}
+		Toast.makeText(context, "Location MUST be enabled to use this.", Toast.LENGTH_LONG).show()
+		textString("Location is disabled on this device.")
+		throw Exception("Disabled Location")
 	}
 	fun enableLostMode(){
-		Log.d("main_log", "lost mode enabled")
 		//TODO:enable battery saver - jk that just doesnt exist
 		//return current location as well as battery info
 		sendLocation()
 		val bm = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 		val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+		val chargeTimeRemaining = bm.computeChargeTimeRemaining() 
+		textString("Battery is currently at $batLevel%.")
 		Log.d("main_log", "battery is currently " + batLevel.toString())
 	}
 }
