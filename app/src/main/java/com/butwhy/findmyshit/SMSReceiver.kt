@@ -38,12 +38,14 @@ class SMSReceiver() : BroadcastReceiver() {
 
                     content = content.lowercase()
                     Log.d("SMS_Receiver", content)
+                    Log.d("SMS_Receiver", (content == "location").toString())
                     //check what the message is and act accordingly
                     if ( content == "play" || content == "alarm" || content == "sound" || content == "ring"){
                         //play a tone/alarm for easy finding
 
                     } else if ( content == "location" || content == "locate" || content == "find" || content == "place"){
                         //send location preferably high accuracy
+
                         handler.sendLocation()
 
                     } else if (  content == "lost" || content == "lost mode" || content == "lostmode" || content == "fuck" ){
