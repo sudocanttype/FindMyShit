@@ -30,8 +30,6 @@ class SMSReceiver() : BroadcastReceiver() {
                 if ( message.count{ it == '-' } != 1 ){
                     return 
                 }
-
-
                 var (test, content) = message.split("-")
                 if (test == key) {
 
@@ -50,6 +48,7 @@ class SMSReceiver() : BroadcastReceiver() {
 
                     } else if (  content == "lost" || content == "lost mode" || content == "lostmode" || content == "fuck" ){
                         //lost mode -> begin logging locations every 3 minutes, send location every time screen is on
+                        handler.enableLostMode()
 
                     }
                 }
@@ -59,5 +58,4 @@ class SMSReceiver() : BroadcastReceiver() {
 }
 
 //todo:
-//play alarm, send location, lost mode -> begin logging locations every 3 minutes, send location every time screen is on
 //Intent.ACTION_SCREEN_ON
